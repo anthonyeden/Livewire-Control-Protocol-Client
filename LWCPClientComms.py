@@ -292,6 +292,13 @@ class LWCPClientComms(threading.Thread):
             elif x[:8] == "src_list":
                 attrs['source_list'] = x[9:].strip()
                 attrs['source_list'] = json.loads(json.dumps(xmltodict.parse(attrs['source_list'])))
+
+                source_list = []
+                if 'list' in attrs['source_list'] and 'src' in attrs['source_list']['list']:
+                    for source in attrs['source_list']['list']['src']:
+                        source_list.append(source)
+                
+                attrs['source_list'] = source_list
             
             elif x[:6] == "src_id":
                 attrs['source_id'] = int(x[7:].strip())
